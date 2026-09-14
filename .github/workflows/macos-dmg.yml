@@ -1,0 +1,25 @@
+name: macOS DMG
+
+on:
+  workflow_dispatch:
+  push:
+    tags: ["v*"]
+
+jobs:
+  package:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@nightly
+      - name: Install cargo-bundle
+        run: cargo install cargo-bundle --locked
+      - name: Build app bundle
+        run: cargo bundle --release --format osx
+      - name: Create DMG
+        run: |
+          mkdir -p dist
+          hdiutil create -volname "GPUI Calculator" -srcfolder "target/release/bundle/osx/GPUI Calculator.app" -ov -format UDZO "dist/gpui-calculator-macos.dmg"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: gpui-calculator-macos
+          path: dist/gpui-calculator-macos.dmg

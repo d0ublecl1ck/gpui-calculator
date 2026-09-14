@@ -1,0 +1,13 @@
+[package]
+name = "gpui-calculator"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+gpui-kit = "0.6.1"
+
+[package.metadata.bundle]
+name = "GPUI Calculator"
+identifier = "com.example.gpui-calculator"
+category = "public.app-category.utilities"
+short_description = "A focused desktop calculator built with GPUI Kit"
